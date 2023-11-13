@@ -6,7 +6,6 @@ package view;
 
 import controller.GradeController;
 import controller.StudentsCtroller;
-import controller.fillTable;
 import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.JFrame;
@@ -24,7 +23,6 @@ public class ScoreManagementView extends javax.swing.JFrame {
     /**
      * Creates new form ScoreManagementView
      */
-    fillTable t = new fillTable();
     GradeController gc = new GradeController();
     StudentsCtroller sc = new StudentsCtroller();
     ArrayList<Grade> gradeList = gc.fullDB();
@@ -505,28 +503,38 @@ public class ScoreManagementView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNewActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        int row = tblInfo.getSelectedRow();
-        System.out.println(row);
-        Students s = new Students();
-        s.setHinh(lblHinh.getText());
-        gc.save(row, s, getData());
-        loadTable(gradeList);
+        if (checkForm()) {
+            int row = tblInfo.getSelectedRow();
+            System.out.println(row);
+            Students s = new Students();
+            s.setHinh(lblHinh.getText());
+            gc.save(row, s, getData());
+            loadTable(gradeList);
+        }
 
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        Grade g = getData();
         int row = tblInfo.getSelectedRow();
-        gc.delete(row, g);
-        loadTable(gradeList);
+        if (row > 0) {
+            Grade g = getData();
+            gc.delete(row, g);
+            loadTable(gradeList);
+        } else {
+            JOptionPane.showMessageDialog(this, "Bạn chưa chọn dòng để xóa", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        int row = tblInfo.getSelectedRow();
-        Students s = new Students();
-        s.setHinh(lblHinh.getText());
-        gc.update(row, s, getData());
-        loadTable(gradeList);
+        if (checkForm()) {
+            int row = tblInfo.getSelectedRow();
+            Students s = new Students();
+            s.setHinh(lblHinh.getText());
+            gc.update(row, s, getData());
+            loadTable(gradeList);
+        }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void tblInfoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblInfoMouseClicked

@@ -4,6 +4,12 @@
  */
 package view;
 
+import controller.StudentsCtroller;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import model.Grade;
+import model.Students;
+
 /**
  *
  * @author hoantp
@@ -13,8 +19,13 @@ public class StudentManagementView extends javax.swing.JFrame {
     /**
      * Creates new form StudentManagementView
      */
+    StudentsCtroller sc = new StudentsCtroller();
+    ArrayList<Students> studentList = sc.fullDB();
+    DefaultTableModel dtm;
+
     public StudentManagementView() {
         initComponents();
+        loadTable(studentList);
     }
 
     /**
@@ -80,6 +91,11 @@ public class StudentManagementView extends javax.swing.JFrame {
         jScrollPane1.setViewportView(txaAddress);
 
         btnSave.setText("Save");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -104,10 +120,25 @@ public class StudentManagementView extends javax.swing.JFrame {
         );
 
         btnNew.setText("New");
+        btnNew.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewActionPerformed(evt);
+            }
+        });
 
         btnUpdate.setText("Update");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         tblInfo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -232,6 +263,48 @@ public class StudentManagementView extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+  private void loadTable(ArrayList<Students> list) {
+        int i = 0;
+        dtm = (DefaultTableModel) tblInfo.getModel();
+        @SuppressWarnings("UnusedAssignment")
+        String gioiTinh = "";
+        dtm.setRowCount(0);
+        for (Students s : list) {
+            if (s.isGioitinh()) {
+                gioiTinh = "Nam";
+            } else {
+                gioiTinh = "Nữ";
+            }
+            dtm.addRow(new Object[]{
+                s.getMASV(),
+                s.getHoten(),
+                s.getEmail(),
+                s.getSoDT(),
+                gioiTinh,
+                s.getDiachi(),
+                s.getHinh()
+            });
+            i++;
+            if (i > 2) {
+                break;
+            }
+        }
+    }
+    private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnNewActionPerformed
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnUpdateActionPerformed
 
     /**
      * @param args the command line arguments
