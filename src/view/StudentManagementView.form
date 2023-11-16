@@ -250,8 +250,7 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="lblImage" pref="114" max="32767" attributes="0"/>
+                  <Component id="btnImage" pref="120" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -260,18 +259,17 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="lblImage" pref="114" max="32767" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="btnImage" min="-2" pref="105" max="-2" attributes="0"/>
+                  <EmptySpace pref="15" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="lblImage">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="hinh"/>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
+        <Component class="javax.swing.JButton" name="btnImage">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnImageActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -362,6 +360,9 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblInfoMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

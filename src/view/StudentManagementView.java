@@ -5,7 +5,13 @@
 package view;
 
 import controller.StudentsCtroller;
+import java.awt.Color;
+import java.awt.Image;
 import java.util.ArrayList;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Grade;
 import model.Students;
@@ -22,10 +28,12 @@ public class StudentManagementView extends javax.swing.JFrame {
     StudentsCtroller sc = new StudentsCtroller();
     ArrayList<Students> studentList = sc.fullDB();
     DefaultTableModel dtm;
+    String urlImage;
 
     public StudentManagementView() {
         initComponents();
         loadTable(studentList);
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -55,7 +63,7 @@ public class StudentManagementView extends javax.swing.JFrame {
         txaAddress = new javax.swing.JTextArea();
         btnSave = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        lblImage = new javax.swing.JLabel();
+        btnImage = new javax.swing.JButton();
         btnNew = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
@@ -99,24 +107,26 @@ public class StudentManagementView extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        lblImage.setText("hinh");
-        lblImage.setToolTipText("");
+        btnImage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImageActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblImage, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
+                .addComponent(btnImage, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblImage, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(btnImage, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         btnNew.setText("New");
@@ -157,6 +167,11 @@ public class StudentManagementView extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tblInfo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblInfoMouseClicked(evt);
             }
         });
         jScrollPane2.setViewportView(tblInfo);
@@ -264,13 +279,11 @@ public class StudentManagementView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
   private void loadTable(ArrayList<Students> list) {
-        int i = 0;
         dtm = (DefaultTableModel) tblInfo.getModel();
-        @SuppressWarnings("UnusedAssignment")
-        String gioiTinh = "";
         dtm.setRowCount(0);
+        String gioiTinh = "";
         for (Students s : list) {
-            if (s.isGioitinh()) {
+            if (s.getGioitinh().equalsIgnoreCase("1")) {
                 gioiTinh = "Nam";
             } else {
                 gioiTinh = "Nữ";
@@ -284,27 +297,146 @@ public class StudentManagementView extends javax.swing.JFrame {
                 s.getDiachi(),
                 s.getHinh()
             });
-            i++;
-            if (i > 2) {
-                break;
-            }
         }
     }
+
+    private void loadForm(Students s) {
+        txtEmail.setText(s.getEmail());
+        txtFullname.setText(s.getHoten());
+        txtID.setText(s.getMASV());
+        txtPhoneNumber.setText(s.getSoDT());
+        if (s.getGioitinh().equalsIgnoreCase("1")) {
+            rdoMale.setSelected(true);
+        } else {
+            rdoFemale.setSelected(true);
+        }
+        txaAddress.setText(s.getDiachi());
+        ImageIcon icon = new ImageIcon(s.getHinh());
+        Image newImage = icon.getImage().getScaledInstance(97, 125, Image.SCALE_SMOOTH);
+        ImageIcon newIcon = new ImageIcon(newImage);
+        btnImage.setIcon(newIcon);
+    }
+
+    private Students getData() {
+        return new Students(txtID.getText(), txtFullname.getText(), txtEmail.getText(), txtPhoneNumber.getText(),
+                txaAddress.getText(), urlImage, rdoMale.isSelected() ? "Nam" : "Nữ");
+    }
+
+    private boolean checkForm() {
+        StringBuilder sb = new StringBuilder();
+        String emailRegex = "^\\w+(\\.)*@\\w+(\\.\\w+){1,3}$";
+        String phoneRegex = "^0[0-9]{9}$";
+        if (txtID.getText().isBlank()) {
+            sb.append("Không được để trống ID\n");
+            txtID.setBackground(Color.yellow);
+        } else {
+            txtID.setBackground(Color.white);
+        }
+
+        if (txtFullname.getText().isBlank()) {
+            sb.append("Không được để trống tên\n");
+            txtFullname.setBackground(Color.yellow);
+        } else {
+            txtFullname.setBackground(Color.white);
+        }
+
+        if (txtEmail.getText().isBlank()) {
+            sb.append("Không được để trống email\n");
+            txtEmail.setBackground(Color.yellow);
+        } else if (!txtEmail.getText().matches(emailRegex)) {
+            sb.append("Email định dạng không hợp lệ\n");
+            txtEmail.setBackground(Color.yellow);
+        } else {
+            txtEmail.setBackground(Color.white);
+        }
+
+        if (txtPhoneNumber.getText().isBlank()) {
+            sb.append("Không được để trống số điện thoại\n");
+            txtPhoneNumber.setBackground(Color.yellow);
+        } else if (!txtPhoneNumber.getText().matches(phoneRegex)) {
+            sb.append("Số điện thoại không hợp lệ\n");
+            txtPhoneNumber.setBackground(Color.yellow);
+        } else {
+            txtPhoneNumber.setBackground(Color.white);
+        }
+
+        if (!rdoFemale.isSelected() && !rdoMale.isSelected()) {
+            sb.append("Không được để trống giới tính\n");
+        }
+
+        if (txaAddress.getText().isBlank()) {
+            sb.append("Không được để trống địa chỉ\n");
+            txaAddress.setBackground(Color.yellow);
+        } else {
+            txaAddress.setBackground(Color.white);
+        }
+
+        if (sb.length() > 0) {
+            JOptionPane.showMessageDialog(this, sb.toString(), "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        return true;
+    }
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
-        // TODO add your handling code here:
+        txtEmail.setText("");
+        txtFullname.setText("");
+        txtID.setText("");
+        txtPhoneNumber.setText("");
+        buttonGroup1.clearSelection();
+        txaAddress.setText("");
     }//GEN-LAST:event_btnNewActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        // TODO add your handling code here:
+        if (JOptionPane.showConfirmDialog(this, "Do you want to add?", "Confirm infomation", JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
+            if (checkForm()) {
+                if (sc.save(getData())) {
+                    loadTable(studentList);
+                }
+            }
+        }
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // TODO add your handling code here:
+        if (JOptionPane.showConfirmDialog(this, "Do you want to ?", "Confirm infomation", JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
+            if (txtID.getText().isBlank()) {
+                JOptionPane.showMessageDialog(this, "ID is invalid", "Error", JOptionPane.ERROR_MESSAGE);
+                txtID.setBackground(Color.yellow);
+            } else if (sc.remove(txtID.getText()) == null) {
+                JOptionPane.showMessageDialog(this, "There are no students with such ID", "Information", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                txtID.setBackground(Color.white);
+                loadTable(studentList);
+                JOptionPane.showMessageDialog(this, "Has been removed successfully", "Information", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        // TODO add your handling code here:
+        if (JOptionPane.showConfirmDialog(this, "Do you want to update?", "Confirm infomation", JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
+            if (checkForm()) {
+                loadTable(sc.update(getData()));
+            }
+        }
     }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImageActionPerformed
+        JFileChooser chooser = new JFileChooser();
+        chooser.showOpenDialog(this);
+        String path = chooser.getSelectedFile().getAbsolutePath();
+        urlImage = path;
+        ImageIcon icon = new ImageIcon(path);
+        Image newImage = icon.getImage().getScaledInstance(97, 125, Image.SCALE_SMOOTH);
+        ImageIcon newIcon = new ImageIcon(newImage);
+        btnImage.setIcon(newIcon);
+        btnImage.setText("");
+    }//GEN-LAST:event_btnImageActionPerformed
+
+    private void tblInfoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblInfoMouseClicked
+        Students s = new Students();
+        s = studentList.get(tblInfo.getSelectedRow());
+        loadForm(s);
+    }//GEN-LAST:event_tblInfoMouseClicked
 
     /**
      * @param args the command line arguments
@@ -343,6 +475,7 @@ public class StudentManagementView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnImage;
     private javax.swing.JButton btnNew;
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnUpdate;
@@ -357,7 +490,6 @@ public class StudentManagementView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JLabel lblImage;
     private javax.swing.JRadioButton rdoFemale;
     private javax.swing.JRadioButton rdoMale;
     private javax.swing.JTable tblInfo;

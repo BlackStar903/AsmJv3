@@ -10,10 +10,9 @@ package model;
  */
 public class Students {
 
-    private String MASV,Hoten,Email,SoDT, Diachi,Hinh;
-    private boolean Gioitinh ;
+    private String MASV,Hoten,Email,SoDT, Diachi,Hinh,Gioitinh;
 
-    public Students(String MASV, String Hoten, String Email, String SoDT, String Diachi, String Hinh, boolean Gioitinh) {
+    public Students(String MASV, String Hoten, String Email, String SoDT, String Diachi, String Hinh, String Gioitinh) {
         this.MASV = MASV;
         this.Hoten = Hoten;
         this.Email = Email;
@@ -81,12 +80,14 @@ public class Students {
         this.Hinh = Hinh;
     }
 
-    public boolean isGioitinh() {
+    public String getGioitinh() {
         return Gioitinh;
     }
 
-    public void setGioitinh(boolean Gioitinh) {
+    public void setGioitinh(String Gioitinh) {
         this.Gioitinh = Gioitinh;
     }
+
+   
 
 }
