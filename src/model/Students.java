@@ -10,7 +10,7 @@ package model;
  */
 public class Students {
 
-    private String MASV,Hoten,Email,SoDT, Diachi,Hinh,Gioitinh;
+    private String MASV, Hoten, Email, SoDT, Diachi, Hinh, Gioitinh;
 
     public Students(String MASV, String Hoten, String Email, String SoDT, String Diachi, String Hinh, String Gioitinh) {
         this.MASV = MASV;
@@ -29,8 +29,6 @@ public class Students {
         this.MASV = MASV;
         this.Hoten = Hoten;
     }
-
-   
 
     public String getMASV() {
         return MASV;
@@ -87,7 +85,5 @@ public class Students {
     public void setGioitinh(String Gioitinh) {
         this.Gioitinh = Gioitinh;
     }
-
-   
 
 }

@@ -156,25 +156,15 @@ public class StudentsCtroller {
         Connection connection = null;
         PreparedStatement ps = null;
         String gioiTinh = "";
+
         if (s.getGioitinh().equalsIgnoreCase("Nam")) {
             gioiTinh = "1";
         } else {
             gioiTinh = "0";
         }
-        for (Students st : listDB) {
-            if (st.equals(st.getMASV())) {
-                st.setDiachi(s.getDiachi());
-                st.setEmail(s.getEmail());
-                st.setGioitinh(s.getGioitinh());
-                st.setHinh(s.getHinh());
-                st.setHoten(s.getHoten());
-                st.setSoDT(s.getSoDT());
-                break;
-            }
-        }
 
         try {
-            connection = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=AsmJV3;user=sa;password=12");
+            connection = DatabaseUntil.getConnection();
             // update học sinh từ bảng STUDENTS
             String sql = "update students set diachi = ?,email=?,gioitinh=?,hinh=?,hoten=?,sodt=? where masv=?";
             ps = connection.prepareStatement(sql);
@@ -184,9 +174,11 @@ public class StudentsCtroller {
             ps.setString(4, s.getHinh());
             ps.setString(5, s.getHoten());
             ps.setString(6, s.getSoDT());
-            ps.setString(6, s.getSoDT());
             ps.setString(7, s.getMASV());
-            ps.executeUpdate();
+            int count = ps.executeUpdate();
+            if (count <= 0) {
+                return null;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -205,6 +197,20 @@ public class StudentsCtroller {
                 }
             }
         }
+
+        for (Students st : listDB) {
+            if (st.getMASV().equals(s.getMASV())) {
+                st.setDiachi(s.getDiachi());
+                st.setEmail(s.getEmail());
+                st.setGioitinh(s.getGioitinh());
+                st.setHinh(s.getHinh());
+                st.setHoten(s.getHoten());
+                st.setSoDT(s.getSoDT());
+                break;
+            }
+        }
+//        listDB.clear();
+//        listDB = fullDB();
         return listDB;
     }
 }

@@ -285,7 +285,8 @@ public class StudentManagementView extends javax.swing.JFrame {
         for (Students s : list) {
             if (s.getGioitinh().equalsIgnoreCase("1")) {
                 gioiTinh = "Nam";
-            } else {
+            } 
+            else {
                 gioiTinh = "Nữ";
             }
             dtm.addRow(new Object[]{
@@ -293,7 +294,7 @@ public class StudentManagementView extends javax.swing.JFrame {
                 s.getHoten(),
                 s.getEmail(),
                 s.getSoDT(),
-                gioiTinh,
+               gioiTinh,
                 s.getDiachi(),
                 s.getHinh()
             });
@@ -319,7 +320,7 @@ public class StudentManagementView extends javax.swing.JFrame {
 
     private Students getData() {
         return new Students(txtID.getText(), txtFullname.getText(), txtEmail.getText(), txtPhoneNumber.getText(),
-                txaAddress.getText(), urlImage, rdoMale.isSelected() ? "Nam" : "Nữ");
+                txaAddress.getText(), urlImage, rdoFemale.isSelected() ? "0" : "1");
     }
 
     private boolean checkForm() {
@@ -371,10 +372,12 @@ public class StudentManagementView extends javax.swing.JFrame {
             txaAddress.setBackground(Color.white);
         }
 
-        if (btnImage.getIcon() == null) {
-            sb.append("Không được để trống ảnh\n");
-            btnImage.setBackground(Color.yellow);
-        }
+//        if (urlImage == null) {
+//            sb.append("Không được để trống ảnh\n");
+//            btnImage.setBackground(Color.yellow);
+//        } else {
+//            btnImage.setBackground(Color.white);
+//        }
 
         if (sb.length() > 0) {
             JOptionPane.showMessageDialog(this, sb.toString(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -434,8 +437,13 @@ public class StudentManagementView extends javax.swing.JFrame {
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         if (JOptionPane.showConfirmDialog(this, "Do you want to update?", "Confirm infomation", JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
             if (checkForm()) {
-                loadTable(sc.update(getData()));
+                if (sc.update(getData()) == null) {
+                    JOptionPane.showMessageDialog(this, "There are no students with such ID", "Information", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    loadTable(studentList);
+                }
                 clearForm();
+                System.out.println(getData().getGioitinh());
                 JOptionPane.showMessageDialog(this, "Has been updated successfully", "Information", JOptionPane.INFORMATION_MESSAGE);
             }
         }
@@ -453,7 +461,7 @@ public class StudentManagementView extends javax.swing.JFrame {
             btnImage.setIcon(newIcon);
             btnImage.setText("");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "You have to choose picture","Error",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "You have to choose picture", "Error", JOptionPane.ERROR_MESSAGE);
             btnImage.requestFocus();
         }
 
