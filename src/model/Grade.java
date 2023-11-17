@@ -10,7 +10,7 @@ package model;
  */
 public class Grade {
 
-    private String StudentID, StudentName;
+    private String StudentID, StudentName,image;
     private int no, scoreEnglish, scoreInformatic, scorePhysic;
 
     public Grade() {
@@ -24,6 +24,15 @@ public class Grade {
         this.scorePhysic = scorePhysic;
     }
 
+    public Grade(String StudentID, String StudentName, int scoreEnglish, int scoreInformatic, int scorePhysic, String image) {
+        this.StudentID = StudentID;
+        this.StudentName = StudentName;
+        this.image = image;
+        this.scoreEnglish = scoreEnglish;
+        this.scoreInformatic = scoreInformatic;
+        this.scorePhysic = scorePhysic;
+    }
+    
     public String getStudentName() {
         return StudentName;
     }
@@ -75,4 +84,13 @@ public class Grade {
     public double getScoreAverage() {
         return (double)Math.round(((double) scorePhysic +  (double) scoreEnglish +  (double) scoreInformatic) / 3*100)/100 ;
     }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+    
 }

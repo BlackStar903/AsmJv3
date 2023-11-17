@@ -371,6 +371,11 @@ public class StudentManagementView extends javax.swing.JFrame {
             txaAddress.setBackground(Color.white);
         }
 
+        if (btnImage.getIcon() == null) {
+            sb.append("Không được để trống ảnh\n");
+            btnImage.setBackground(Color.yellow);
+        }
+
         if (sb.length() > 0) {
             JOptionPane.showMessageDialog(this, sb.toString(), "Error", JOptionPane.ERROR_MESSAGE);
             return false;
@@ -378,6 +383,17 @@ public class StudentManagementView extends javax.swing.JFrame {
 
         return true;
     }
+
+    private void clearForm() {
+        txtEmail.setText("");
+        txtFullname.setText("");
+        txtID.setText("");
+        txtPhoneNumber.setText("");
+        buttonGroup1.clearSelection();
+        txaAddress.setText("");
+        btnImage.setIcon(null);
+    }
+
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
         txtEmail.setText("");
         txtFullname.setText("");
@@ -385,6 +401,7 @@ public class StudentManagementView extends javax.swing.JFrame {
         txtPhoneNumber.setText("");
         buttonGroup1.clearSelection();
         txaAddress.setText("");
+        btnImage.setIcon(null);
     }//GEN-LAST:event_btnNewActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
@@ -392,13 +409,14 @@ public class StudentManagementView extends javax.swing.JFrame {
             if (checkForm()) {
                 if (sc.save(getData())) {
                     loadTable(studentList);
+                    clearForm();
                 }
             }
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        if (JOptionPane.showConfirmDialog(this, "Do you want to ?", "Confirm infomation", JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
+        if (JOptionPane.showConfirmDialog(this, "Do you want to delete?", "Confirm infomation", JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
             if (txtID.getText().isBlank()) {
                 JOptionPane.showMessageDialog(this, "ID is invalid", "Error", JOptionPane.ERROR_MESSAGE);
                 txtID.setBackground(Color.yellow);
@@ -407,6 +425,7 @@ public class StudentManagementView extends javax.swing.JFrame {
             } else {
                 txtID.setBackground(Color.white);
                 loadTable(studentList);
+                clearForm();
                 JOptionPane.showMessageDialog(this, "Has been removed successfully", "Information", JOptionPane.INFORMATION_MESSAGE);
             }
         }
@@ -416,6 +435,8 @@ public class StudentManagementView extends javax.swing.JFrame {
         if (JOptionPane.showConfirmDialog(this, "Do you want to update?", "Confirm infomation", JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
             if (checkForm()) {
                 loadTable(sc.update(getData()));
+                clearForm();
+                JOptionPane.showMessageDialog(this, "Has been updated successfully", "Information", JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
@@ -423,13 +444,19 @@ public class StudentManagementView extends javax.swing.JFrame {
     private void btnImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImageActionPerformed
         JFileChooser chooser = new JFileChooser();
         chooser.showOpenDialog(this);
-        String path = chooser.getSelectedFile().getAbsolutePath();
-        urlImage = path;
-        ImageIcon icon = new ImageIcon(path);
-        Image newImage = icon.getImage().getScaledInstance(97, 125, Image.SCALE_SMOOTH);
-        ImageIcon newIcon = new ImageIcon(newImage);
-        btnImage.setIcon(newIcon);
-        btnImage.setText("");
+        try {
+            String path = chooser.getSelectedFile().getAbsolutePath();
+            urlImage = path;
+            ImageIcon icon = new ImageIcon(path);
+            Image newImage = icon.getImage().getScaledInstance(97, 125, Image.SCALE_SMOOTH);
+            ImageIcon newIcon = new ImageIcon(newImage);
+            btnImage.setIcon(newIcon);
+            btnImage.setText("");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "You have to choose picture","Error",JOptionPane.ERROR_MESSAGE);
+            btnImage.requestFocus();
+        }
+
     }//GEN-LAST:event_btnImageActionPerformed
 
     private void tblInfoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblInfoMouseClicked

@@ -175,7 +175,7 @@ public class StudentsCtroller {
 
         try {
             connection = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=AsmJV3;user=sa;password=12");
-            // Xóa học sinh từ bảng STUDENTS
+            // update học sinh từ bảng STUDENTS
             String sql = "update students set diachi = ?,email=?,gioitinh=?,hinh=?,hoten=?,sodt=? where masv=?";
             ps = connection.prepareStatement(sql);
             ps.setString(1, s.getDiachi());

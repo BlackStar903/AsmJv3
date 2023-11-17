@@ -384,9 +384,6 @@
           </Layout>
           <SubComponents>
             <Component class="javax.swing.JLabel" name="lblHinh">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Hinh"/>
-              </Properties>
             </Component>
           </SubComponents>
         </Container>

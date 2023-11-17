@@ -7,7 +7,10 @@ package view;
 import controller.GradeController;
 import controller.StudentsCtroller;
 import java.awt.Color;
+import java.awt.Image;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -148,8 +151,6 @@ public class ScoreManagementView extends javax.swing.JFrame {
         lblScore.setText("10.0");
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        lblHinh.setText("Hinh");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -488,6 +489,10 @@ public class ScoreManagementView extends javax.swing.JFrame {
         txtScoreInfomatic.setText(String.valueOf(g.getScoreInformatic()));
         txtScorePhysical.setText(String.valueOf(g.getScorePhysic()));
         lblScore.setText(String.valueOf(g.getScoreAverage()));
+        ImageIcon icon = new ImageIcon(g.getImage());
+        Image newImage = icon.getImage().getScaledInstance(97, 125, Image.SCALE_SMOOTH);
+        ImageIcon newIcon = new ImageIcon(newImage);
+        lblHinh.setIcon(newIcon);
     }
 
     private Grade getData() {
@@ -532,8 +537,7 @@ public class ScoreManagementView extends javax.swing.JFrame {
             int row = tblInfo.getSelectedRow();
             Students s = new Students();
             s.setHinh(lblHinh.getText());
-            gc.update(row, s, getData());
-            loadTable(gradeList);
+            loadTable( gc.update(getData()));
         } else {
             JOptionPane.showMessageDialog(this, "Bạn chưa chọn dòng để sửa", "Error", JOptionPane.ERROR_MESSAGE);
         }

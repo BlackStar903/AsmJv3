@@ -25,14 +25,14 @@ public class GradeController {
         PreparedStatement ps = null;
         try {
             connection = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=AsmJV3;user=sa;password=12");
-            String sql = "SELECT s.MASV, s.Hoten, g.Tinhoc, g.Tienganh, g.GDTC,(g.Tinhoc+ g.Tienganh+ g.GDTC)/3[Điểm trung bình]"
+            String sql = "SELECT s.MASV, s.Hoten, g.Tinhoc, g.Tienganh, g.GDTC,(g.Tinhoc+ g.Tienganh+ g.GDTC)/3[Điểm trung bình],s.Hinh"
                     + " FROM grade g JOIN STUDENTS s ON g.MASV = s.MASV "
                     + "order by [Điểm trung bình] desc";
-
             ps = connection.prepareStatement(sql);
             ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {
-                Grade g = new Grade(resultSet.getString("MASV"), resultSet.getString("Hoten"), resultSet.getInt("Tienganh"), resultSet.getInt("Tinhoc"), resultSet.getInt("GDTC"));
+                Grade g = new Grade(resultSet.getString("MASV"), resultSet.getString("Hoten"), resultSet.getInt("Tienganh"),
+                        resultSet.getInt("Tinhoc"), resultSet.getInt("GDTC"), resultSet.getString("Hinh"));
                 listDB.add(g);
             }
         } catch (SQLException ex) {
@@ -99,18 +99,20 @@ public class GradeController {
         return listDB;
     }
 
-    public ArrayList<Grade> update(int row, Students s, Grade g) {
+    public ArrayList<Grade> update(Grade g) {
         Connection connection = null;
         PreparedStatement ps = null;
+        ArrayList<Grade> listTop3 = new ArrayList<>();
         try {
             connection = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=AsmJV3;user=sa;password=12");
-            //Update Students
-            String sqlUpdateStudent = "update STUDENTS set Hinh=? where masv = ?";
-            ps = connection.prepareStatement(sqlUpdateStudent);
-            ps.setString(1, s.getHinh());
-            ps.setString(2, g.getStudentID());
-            ps.execute();
-
+            for (Grade gr : listDB) {
+                if (g.getStudentID().equals(gr.getStudentID())) {
+                    gr.setScoreEnglish(g.getScoreEnglish());
+                    gr.setScoreInformatic(g.getScoreInformatic());
+                    gr.setScorePhysic(g.getScorePhysic());
+                    break;
+                }
+            }
             //Update Grade
             String sqlUpdateGrade = "update Grade set Tienganh= ?,tinhoc= ? , gdtc = ? where masv = ?";
             ps = connection.prepareStatement(sqlUpdateGrade);
@@ -118,9 +120,16 @@ public class GradeController {
             ps.setInt(2, g.getScoreInformatic());
             ps.setInt(3, g.getScorePhysic());
             ps.setString(4, g.getStudentID());
-
             ps.execute();
-            listDB.set(row, g);
+
+            //Select top3
+            String sqlTop3 = "select top 3 * from grade order by  (tienganh+tinhoc+gdtc)/3 desc";
+            ps = connection.prepareStatement(sqlTop3);
+            ResultSet resultSet = ps.executeQuery();
+            while (resultSet.next()) {
+                listTop3.add(new Grade(resultSet.getString("MASV"), resultSet.getString("Hoten"), resultSet.getInt("Tienganh"),
+                        resultSet.getInt("Tinhoc"), resultSet.getInt("GDTC"), resultSet.getString("Hinh")));
+            }
 
         } catch (SQLException ex) {
             Logger.getLogger(GradeController.class.getName()).log(Level.SEVERE, null, ex);
@@ -140,7 +149,7 @@ public class GradeController {
                 }
             }
         }
-        return listDB;
+        return listTop3;
     }
 
     public ArrayList<Grade> delete(int i, Grade g) {
@@ -154,11 +163,6 @@ public class GradeController {
             ps.setString(1, g.getStudentID());
             ps.execute();
 
-            // Xóa học sinh từ bảng STUDENTS
-            sql = "delete from STUDENTS where MASV = ?";
-            ps = connection.prepareStatement(sql);
-            ps.setString(1, g.getStudentID());
-            ps.execute();
             listDB.remove(i);
         } catch (SQLException ex) {
             Logger.getLogger(GradeController.class.getName()).log(Level.SEVERE, null, ex);
@@ -197,7 +201,8 @@ public class GradeController {
                         rs.getString("Hoten"),
                         rs.getInt("Tienganh"),
                         rs.getInt("Tinhoc"),
-                        rs.getInt("GDTC"));
+                        rs.getInt("GDTC"),
+                        rs.getString("Hinh"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(GradeController.class.getName()).log(Level.SEVERE, null, ex);
