@@ -56,28 +56,38 @@ public class GradeController {
         return listDB;
     }
 
-    public ArrayList<Grade> save(int row, Students s, Grade g) {
+    public ArrayList<Grade> save(Grade g) {
         Connection connection = null;
         PreparedStatement ps = null;
+        ArrayList<Grade> listTop3 = new ArrayList<>();
         try {
             connection = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=AsmJV3;user=sa;password=12");
-
-            String sqlUpdateStudent = "update STUDENTS set Hinh=? where masv = ?";
-            ps = connection.prepareStatement(sqlUpdateStudent);
-            ps.setString(1, s.getHinh());
-            ps.setString(2, g.getStudentID());
-            ps.execute();
-
+            for (Grade gr : listDB) {
+                if (g.getStudentID().equals(gr.getStudentID())) {
+                    gr.setScoreEnglish(g.getScoreEnglish());
+                    gr.setScoreInformatic(g.getScoreInformatic());
+                    gr.setScorePhysic(g.getScorePhysic());
+                    break;
+                }
+            }
             //Update Grade
-            String sqlUpdateGrade = "update Grade set Tienganh= ?,tinhoc= ? , GDTC = ? where masv = ?";
+            String sqlUpdateGrade = "update Grade set Tienganh= ?,tinhoc= ? , gdtc = ? where masv = ?";
             ps = connection.prepareStatement(sqlUpdateGrade);
             ps.setInt(1, g.getScoreEnglish());
             ps.setInt(2, g.getScoreInformatic());
             ps.setInt(3, g.getScorePhysic());
             ps.setString(4, g.getStudentID());
-
             ps.execute();
-            listDB.set(row, g);
+
+            //Select top3
+            String sqlTop3 = "select top 3 * FROM grade g JOIN STUDENTS s ON g.MASV = s.MASV order by  (tienganh+tinhoc+gdtc)/3 desc";
+            ps = connection.prepareStatement(sqlTop3);
+            ResultSet resultSet = ps.executeQuery();
+            while (resultSet.next()) {
+                listTop3.add(new Grade(resultSet.getString("MASV"), resultSet.getString("Hoten"), resultSet.getInt("Tienganh"),
+                        resultSet.getInt("Tinhoc"), resultSet.getInt("GDTC"), resultSet.getString("Hinh")));
+            }
+
         } catch (SQLException ex) {
             Logger.getLogger(GradeController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -96,7 +106,7 @@ public class GradeController {
                 }
             }
         }
-        return listDB;
+        return listTop3;
     }
 
     public ArrayList<Grade> update(Grade g) {

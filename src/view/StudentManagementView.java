@@ -443,7 +443,6 @@ public class StudentManagementView extends javax.swing.JFrame {
                     loadTable(studentList);
                 }
                 clearForm();
-                System.out.println(getData().getGioitinh());
                 JOptionPane.showMessageDialog(this, "Has been updated successfully", "Information", JOptionPane.INFORMATION_MESSAGE);
             }
         }
