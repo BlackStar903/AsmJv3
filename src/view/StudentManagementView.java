@@ -372,12 +372,12 @@ public class StudentManagementView extends javax.swing.JFrame {
             txaAddress.setBackground(Color.white);
         }
 
-//        if (urlImage == null) {
-//            sb.append("Không được để trống ảnh\n");
-//            btnImage.setBackground(Color.yellow);
-//        } else {
-//            btnImage.setBackground(Color.white);
-//        }
+        if (urlImage == null) {
+            sb.append("Không được để trống ảnh\n");
+            btnImage.setBackground(Color.yellow);
+        } else {
+            btnImage.setBackground(Color.white);
+        }
 
         if (sb.length() > 0) {
             JOptionPane.showMessageDialog(this, sb.toString(), "Error", JOptionPane.ERROR_MESSAGE);

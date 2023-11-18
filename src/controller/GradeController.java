@@ -123,7 +123,7 @@ public class GradeController {
             ps.execute();
 
             //Select top3
-            String sqlTop3 = "select top 3 * from grade order by  (tienganh+tinhoc+gdtc)/3 desc";
+            String sqlTop3 = "select top 3 * FROM grade g JOIN STUDENTS s ON g.MASV = s.MASV order by  (tienganh+tinhoc+gdtc)/3 desc";
             ps = connection.prepareStatement(sqlTop3);
             ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {
