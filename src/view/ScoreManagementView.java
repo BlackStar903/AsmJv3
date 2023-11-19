@@ -493,6 +493,16 @@ public class ScoreManagementView extends javax.swing.JFrame {
         lblHinh.setIcon(newIcon);
     }
 
+    private void resetForm() {
+        lblFullName.setText("");
+        txtId.setText("");
+        txtScoreEnglish.setText("");
+        txtScoreInfomatic.setText("");
+        txtScorePhysical.setText("");
+        lblScore.setText("");
+        lblHinh.setIcon(null);
+    }
+
     private Grade getData() {
         return new Grade(txtId.getText(), lblFullName.getText(), Integer.parseInt(txtScoreEnglish.getText()), Integer.parseInt(txtScoreInfomatic.getText()), Integer.parseInt(txtScorePhysical.getText()));
     }
@@ -503,35 +513,41 @@ public class ScoreManagementView extends javax.swing.JFrame {
         txtScoreInfomatic.setText("");
         txtScorePhysical.setText("");
         lblScore.setText("");
+        lblHinh.setIcon(null);
     }//GEN-LAST:event_btnNewActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        if (checkForm()) {
-            int row = tblInfo.getSelectedRow();
-            loadTable( gc.save(getData()));
-        } else {
-            JOptionPane.showMessageDialog(this, "Bạn chưa chọn dòng để lưu", "Error", JOptionPane.ERROR_MESSAGE);
+        if (JOptionPane.showConfirmDialog(this, "Do you want to save?", "Confirm infomation", JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
+            if (checkForm()) {
+                JOptionPane.showMessageDialog(this, "Has been saved successfully", "Information", JOptionPane.INFORMATION_MESSAGE);
+                loadTable(gc.save(getData()));
+                resetForm();
+            }
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         int row = tblInfo.getSelectedRow();
-        if (row > 0) {
-            Grade g = getData();
-            gc.delete(row, g);
-            loadTable(gradeList);
-        } else {
-            JOptionPane.showMessageDialog(this, "Bạn chưa chọn dòng để xóa", "Error", JOptionPane.ERROR_MESSAGE);
+        if (JOptionPane.showConfirmDialog(this, "Do you want to delete?", "Confirm infomation", JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
+            if (row > 0) {
+                Grade g = getData();
+                gc.delete(row, g);
+                loadTable(gradeList);
+            } else {
+                JOptionPane.showMessageDialog(this, "Bạn chưa chọn dòng để xóa", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        if (checkForm()) {
-            int row = tblInfo.getSelectedRow();
-          gc.update(getData());
-            loadTable(gradeList);
-        } else {
-            JOptionPane.showMessageDialog(this, "Bạn chưa chọn dòng để sửa", "Error", JOptionPane.ERROR_MESSAGE);
+        if (JOptionPane.showConfirmDialog(this, "Do you want to update?", "Confirm infomation", JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
+            if (checkForm()) {
+                int row = tblInfo.getSelectedRow();
+                gc.update(getData());
+                loadTable(gradeList);
+            } else {
+                JOptionPane.showMessageDialog(this, "Bạn chưa chọn dòng để sửa", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
@@ -556,7 +572,12 @@ public class ScoreManagementView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLastActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        loadForm(gc.search(txtSearchID.getText()));
+        Grade g = gc.search(txtSearchID.getText());
+        if (g == null) {
+            JOptionPane.showMessageDialog(this, "There is no student with such ID", "Infomation", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            loadForm(g);
+        }
     }//GEN-LAST:event_btnSearchActionPerformed
 
     /**

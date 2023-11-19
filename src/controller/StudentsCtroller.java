@@ -61,12 +61,12 @@ public class StudentsCtroller {
                     return false;
                 }
             }
-            String gioiTinh = "";
-            if (s.getGioitinh().equalsIgnoreCase("Nam")) {
-                gioiTinh = "1";
-            } else {
-                gioiTinh = "0";
-            }
+//            String gioiTinh = "";
+//            if (s.getGioitinh().equalsIgnoreCase("Nam")) {
+//                gioiTinh = "1";
+//            } else {
+//                gioiTinh = "0";
+//            }
             connection = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=AsmJV3;user=sa;password=12");
             String sql = "insert into students(MASV,Hoten,Email,SoDT,Gioitinh,Diachi,Hinh) values (?,?,?,?,?,?,?)";
             ps = connection.prepareStatement(sql);
@@ -74,7 +74,7 @@ public class StudentsCtroller {
             ps.setString(2, s.getHoten());
             ps.setString(3, s.getEmail());
             ps.setString(4, s.getSoDT());
-            ps.setString(5, gioiTinh);
+            ps.setString(5, s.getGioitinh());
             ps.setString(6, s.getDiachi());
             ps.setString(7, s.getHinh());
             ps.execute();
@@ -157,11 +157,11 @@ public class StudentsCtroller {
         PreparedStatement ps = null;
         String gioiTinh = "";
 
-        if (s.getGioitinh().equalsIgnoreCase("Nam")) {
-            gioiTinh = "1";
-        } else {
-            gioiTinh = "0";
-        }
+//        if (s.getGioitinh().equalsIgnoreCase("Nam")) {
+//            gioiTinh = "1";
+//        } else {
+//            gioiTinh = "0";
+//        }
 
         try {
             connection = DatabaseUntil.getConnection();
@@ -170,7 +170,7 @@ public class StudentsCtroller {
             ps = connection.prepareStatement(sql);
             ps.setString(1, s.getDiachi());
             ps.setString(2, s.getEmail());
-            ps.setString(3, gioiTinh);
+            ps.setString(3, s.getGioitinh());
             ps.setString(4, s.getHinh());
             ps.setString(5, s.getHoten());
             ps.setString(6, s.getSoDT());

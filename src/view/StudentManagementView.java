@@ -117,9 +117,7 @@ public class StudentManagementView extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(btnImage, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(btnImage, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -285,8 +283,7 @@ public class StudentManagementView extends javax.swing.JFrame {
         for (Students s : list) {
             if (s.getGioitinh().equalsIgnoreCase("1")) {
                 gioiTinh = "Nam";
-            } 
-            else {
+            } else {
                 gioiTinh = "Nữ";
             }
             dtm.addRow(new Object[]{
@@ -294,7 +291,7 @@ public class StudentManagementView extends javax.swing.JFrame {
                 s.getHoten(),
                 s.getEmail(),
                 s.getSoDT(),
-               gioiTinh,
+                gioiTinh,
                 s.getDiachi(),
                 s.getHinh()
             });
@@ -372,7 +369,7 @@ public class StudentManagementView extends javax.swing.JFrame {
             txaAddress.setBackground(Color.white);
         }
 
-        if (urlImage == null) {
+        if (btnImage.getIcon() == null) {
             sb.append("Không được để trống ảnh\n");
             btnImage.setBackground(Color.yellow);
         } else {
@@ -408,9 +405,10 @@ public class StudentManagementView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNewActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        if (JOptionPane.showConfirmDialog(this, "Do you want to add?", "Confirm infomation", JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
+        if (JOptionPane.showConfirmDialog(this, "Do you want to save?", "Confirm infomation", JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
             if (checkForm()) {
                 if (sc.save(getData())) {
+                    JOptionPane.showMessageDialog(this, "Has been saved successfully", "Information", JOptionPane.INFORMATION_MESSAGE);
                     loadTable(studentList);
                     clearForm();
                 }
@@ -438,7 +436,7 @@ public class StudentManagementView extends javax.swing.JFrame {
         if (JOptionPane.showConfirmDialog(this, "Do you want to update?", "Confirm infomation", JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
             if (checkForm()) {
                 if (sc.update(getData()) == null) {
-                    JOptionPane.showMessageDialog(this, "There are no students with such ID", "Information", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "There is no student with such ID", "Information", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     loadTable(studentList);
                 }
@@ -460,10 +458,9 @@ public class StudentManagementView extends javax.swing.JFrame {
             btnImage.setIcon(newIcon);
             btnImage.setText("");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "You have to choose picture", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "You have to choose picture", "Warning", JOptionPane.WARNING_MESSAGE);
             btnImage.requestFocus();
         }
-
     }//GEN-LAST:event_btnImageActionPerformed
 
     private void tblInfoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblInfoMouseClicked

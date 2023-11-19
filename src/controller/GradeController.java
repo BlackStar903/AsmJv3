@@ -82,7 +82,7 @@ public class GradeController {
             String sqlTop3 = "select * FROM grade g JOIN STUDENTS s ON g.MASV = s.MASV order by  (tienganh+tinhoc+gdtc)/3 desc";
             ps = connection.prepareStatement(sqlTop3);
             ResultSet resultSet = ps.executeQuery();
-            listDB.clear();
+            listDB.clear();// Phải clear list để thêm lại, lần trước tạo ra list mới nên khi update xong vẫn hiện top 3 nhưg click vào vị trí t3 lại ra đối tượng t3 pử listDB là sai
             while (resultSet.next()) {
                 listDB.add(new Grade(resultSet.getString("MASV"), resultSet.getString("Hoten"), resultSet.getInt("Tienganh"),
                         resultSet.getInt("Tinhoc"), resultSet.getInt("GDTC"), resultSet.getString("Hinh")));
@@ -205,7 +205,7 @@ public class GradeController {
             ps = connection.prepareStatement(sql);
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
+            if (rs.next()) {
                 g = new Grade(
                         rs.getString("MASV"),
                         rs.getString("Hoten"),
@@ -213,6 +213,8 @@ public class GradeController {
                         rs.getInt("Tinhoc"),
                         rs.getInt("GDTC"),
                         rs.getString("Hinh"));
+            } else {
+                g = null;
             }
         } catch (SQLException ex) {
             Logger.getLogger(GradeController.class.getName()).log(Level.SEVERE, null, ex);
