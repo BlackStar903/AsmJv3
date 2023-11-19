@@ -59,7 +59,6 @@ public class GradeController {
     public ArrayList<Grade> save(Grade g) {
         Connection connection = null;
         PreparedStatement ps = null;
-        ArrayList<Grade> listTop3 = new ArrayList<>();
         try {
             connection = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=AsmJV3;user=sa;password=12");
             for (Grade gr : listDB) {
@@ -80,11 +79,12 @@ public class GradeController {
             ps.execute();
 
             //Select top3
-            String sqlTop3 = "select top 3 * FROM grade g JOIN STUDENTS s ON g.MASV = s.MASV order by  (tienganh+tinhoc+gdtc)/3 desc";
+            String sqlTop3 = "select * FROM grade g JOIN STUDENTS s ON g.MASV = s.MASV order by  (tienganh+tinhoc+gdtc)/3 desc";
             ps = connection.prepareStatement(sqlTop3);
             ResultSet resultSet = ps.executeQuery();
+            listDB.clear();
             while (resultSet.next()) {
-                listTop3.add(new Grade(resultSet.getString("MASV"), resultSet.getString("Hoten"), resultSet.getInt("Tienganh"),
+                listDB.add(new Grade(resultSet.getString("MASV"), resultSet.getString("Hoten"), resultSet.getInt("Tienganh"),
                         resultSet.getInt("Tinhoc"), resultSet.getInt("GDTC"), resultSet.getString("Hinh")));
             }
 
@@ -106,13 +106,12 @@ public class GradeController {
                 }
             }
         }
-        return listTop3;
+        return listDB;
     }
 
     public ArrayList<Grade> update(Grade g) {
         Connection connection = null;
         PreparedStatement ps = null;
-        ArrayList<Grade> listTop3 = new ArrayList<>();
         try {
             connection = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=AsmJV3;user=sa;password=12");
             for (Grade gr : listDB) {
@@ -136,8 +135,9 @@ public class GradeController {
             String sqlTop3 = "select top 3 * FROM grade g JOIN STUDENTS s ON g.MASV = s.MASV order by  (tienganh+tinhoc+gdtc)/3 desc";
             ps = connection.prepareStatement(sqlTop3);
             ResultSet resultSet = ps.executeQuery();
+            listDB.clear();
             while (resultSet.next()) {
-                listTop3.add(new Grade(resultSet.getString("MASV"), resultSet.getString("Hoten"), resultSet.getInt("Tienganh"),
+                listDB.add(new Grade(resultSet.getString("MASV"), resultSet.getString("Hoten"), resultSet.getInt("Tienganh"),
                         resultSet.getInt("Tinhoc"), resultSet.getInt("GDTC"), resultSet.getString("Hinh")));
             }
 
@@ -159,7 +159,7 @@ public class GradeController {
                 }
             }
         }
-        return listTop3;
+        return listDB;
     }
 
     public ArrayList<Grade> delete(int i, Grade g) {

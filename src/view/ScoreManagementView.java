@@ -35,8 +35,6 @@ public class ScoreManagementView extends javax.swing.JFrame {
         initComponents();
         loadTable(gradeList);
         dtm = (DefaultTableModel) tblInfo.getModel();
-//        loadTable2(t.fullDB(dtm));
-//        loadForm(gradeList.get(0));
         setLocationRelativeTo(null);
     }
 
@@ -510,7 +508,7 @@ public class ScoreManagementView extends javax.swing.JFrame {
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         if (checkForm()) {
             int row = tblInfo.getSelectedRow();
-            loadTable(gc.save(getData()));
+            loadTable( gc.save(getData()));
         } else {
             JOptionPane.showMessageDialog(this, "Bạn chưa chọn dòng để lưu", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -530,7 +528,8 @@ public class ScoreManagementView extends javax.swing.JFrame {
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         if (checkForm()) {
             int row = tblInfo.getSelectedRow();
-            loadTable( gc.update(getData()));
+          gc.update(getData());
+            loadTable(gradeList);
         } else {
             JOptionPane.showMessageDialog(this, "Bạn chưa chọn dòng để sửa", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -546,8 +545,6 @@ public class ScoreManagementView extends javax.swing.JFrame {
 
     private void btnPreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousActionPerformed
         loadForm(gc.prev());
-
-//        tblInfo.getS
     }//GEN-LAST:event_btnPreviousActionPerformed
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
