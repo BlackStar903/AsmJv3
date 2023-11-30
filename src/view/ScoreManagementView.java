@@ -59,7 +59,6 @@ public class ScoreManagementView extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        lblFullName = new javax.swing.JLabel();
         txtId = new javax.swing.JTextField();
         txtScorePhysical = new javax.swing.JTextField();
         txtScoreEnglish = new javax.swing.JTextField();
@@ -68,6 +67,7 @@ public class ScoreManagementView extends javax.swing.JFrame {
         lblScore = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         lblHinh = new javax.swing.JLabel();
+        txtFullName = new javax.swing.JTextField();
         btnNew = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnSave = new javax.swing.JButton();
@@ -79,6 +79,7 @@ public class ScoreManagementView extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblInfo = new javax.swing.JTable();
+        jLabel8 = new javax.swing.JLabel();
 
         jButton6.setText("Delete");
 
@@ -135,10 +136,6 @@ public class ScoreManagementView extends javax.swing.JFrame {
 
         jLabel7.setText("Tin học:");
 
-        lblFullName.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblFullName.setForeground(new java.awt.Color(51, 51, 255));
-        lblFullName.setText("Tran Phuc Hoan");
-
         txtId.setForeground(new java.awt.Color(51, 51, 255));
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -182,18 +179,18 @@ public class ScoreManagementView extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtScoreEnglish, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtScoreInfomatic, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblFullName, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtScoreEnglish, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+                            .addComponent(txtScoreInfomatic, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+                            .addComponent(txtId, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+                            .addComponent(txtFullName))
+                        .addGap(30, 30, 30)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(1, 1, 1)
                                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap(12, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addGap(6, 6, 6)
@@ -207,35 +204,38 @@ public class ScoreManagementView extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(lblFullName))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
-                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(13, 13, 13)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(txtScoreEnglish, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(txtScoreInfomatic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtScorePhysical, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblScore)
-                .addGap(34, 34, 34))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(15, 15, 15)
+                                .addComponent(jLabel4))
+                            .addComponent(txtFullName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(13, 13, 13)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(txtScoreEnglish, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(txtScoreInfomatic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(txtScorePhysical, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblScore)
+                        .addGap(34, 34, 34))))
         );
 
         btnNew.setText("New");
@@ -325,6 +325,13 @@ public class ScoreManagementView extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblInfo);
 
+        jLabel8.setText("jLabel8");
+        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel8MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -342,7 +349,8 @@ public class ScoreManagementView extends javax.swing.JFrame {
                             .addComponent(btnNew)
                             .addComponent(btnSave)
                             .addComponent(btnDelete)
-                            .addComponent(btnUpdate)))
+                            .addComponent(btnUpdate)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(42, 42, 42)
                         .addComponent(btnFirst)
@@ -381,7 +389,9 @@ public class ScoreManagementView extends javax.swing.JFrame {
                         .addGap(25, 25, 25)
                         .addComponent(btnDelete)
                         .addGap(18, 18, 18)
-                        .addComponent(btnUpdate)))
+                        .addComponent(btnUpdate)
+                        .addGap(33, 33, 33)
+                        .addComponent(jLabel8)))
                 .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnFirst)
@@ -481,7 +491,7 @@ public class ScoreManagementView extends javax.swing.JFrame {
     }
 
     private void loadForm(Grade g) {
-        lblFullName.setText(g.getStudentName());
+        txtFullName.setText(g.getStudentName());
         txtId.setText(g.getStudentID());
         txtScoreEnglish.setText(String.valueOf(g.getScoreEnglish()));
         txtScoreInfomatic.setText(String.valueOf(g.getScoreInformatic()));
@@ -494,7 +504,7 @@ public class ScoreManagementView extends javax.swing.JFrame {
     }
 
     private void resetForm() {
-        lblFullName.setText("");
+        txtFullName.setText("");
         txtId.setText("");
         txtScoreEnglish.setText("");
         txtScoreInfomatic.setText("");
@@ -504,10 +514,10 @@ public class ScoreManagementView extends javax.swing.JFrame {
     }
 
     private Grade getData() {
-        return new Grade(txtId.getText(), lblFullName.getText(), Integer.parseInt(txtScoreEnglish.getText()), Integer.parseInt(txtScoreInfomatic.getText()), Integer.parseInt(txtScorePhysical.getText()));
+        return new Grade(txtId.getText(), txtFullName.getText(), Integer.parseInt(txtScoreEnglish.getText()), Integer.parseInt(txtScoreInfomatic.getText()), Integer.parseInt(txtScorePhysical.getText()));
     }
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
-        lblFullName.setText("");
+        txtFullName.setText("");
         txtId.setText("");
         txtScoreEnglish.setText("");
         txtScoreInfomatic.setText("");
@@ -519,8 +529,12 @@ public class ScoreManagementView extends javax.swing.JFrame {
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         if (JOptionPane.showConfirmDialog(this, "Do you want to save?", "Confirm infomation", JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
             if (checkForm()) {
+                if (gc.save(getData()) == null) {
+                    JOptionPane.showMessageDialog(this, "There is student with such ID", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 JOptionPane.showMessageDialog(this, "Has been saved successfully", "Information", JOptionPane.INFORMATION_MESSAGE);
-                loadTable(gc.save(getData()));
+                loadTable(gradeList);
                 resetForm();
             }
         }
@@ -528,9 +542,12 @@ public class ScoreManagementView extends javax.swing.JFrame {
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         int row = tblInfo.getSelectedRow();
+        Grade g = getData();
         if (JOptionPane.showConfirmDialog(this, "Do you want to delete?", "Confirm infomation", JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
-            if (row > 0) {
-                Grade g = getData();
+            if (!txtId.getText().isBlank()) {
+                gc.delete(row, g);
+                loadTable(gradeList);
+            } else if (row > 0) {
                 gc.delete(row, g);
                 loadTable(gradeList);
             } else {
@@ -542,11 +559,13 @@ public class ScoreManagementView extends javax.swing.JFrame {
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         if (JOptionPane.showConfirmDialog(this, "Do you want to update?", "Confirm infomation", JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
             if (checkForm()) {
-                int row = tblInfo.getSelectedRow();
-                gc.update(getData());
-                loadTable(gradeList);
-            } else {
-                JOptionPane.showMessageDialog(this, "Bạn chưa chọn dòng để sửa", "Error", JOptionPane.ERROR_MESSAGE);
+                if (tblInfo.getSelectedRow() > 0) {
+                    loadTable(gc.update(getData(), tblInfo.getValueAt(tblInfo.getSelectedRow(), 0).toString()));
+                } else if (!txtSearchID.getText().isBlank()) {
+                    loadTable(gc.update(getData(), txtSearchID.getText()));
+                } else {
+                    JOptionPane.showMessageDialog(this, "Bạn chưa chọn dòng để sửa", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
@@ -579,6 +598,10 @@ public class ScoreManagementView extends javax.swing.JFrame {
             loadForm(g);
         }
     }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
+        jLabel8.setEnabled(true);
+    }//GEN-LAST:event_jLabel8MouseClicked
 
     /**
      * @param args the command line arguments
@@ -634,15 +657,16 @@ public class ScoreManagementView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblFullName;
     private javax.swing.JLabel lblHinh;
     private javax.swing.JLabel lblScore;
     private javax.swing.JTable tblInfo;
+    private javax.swing.JTextField txtFullName;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtScoreEnglish;
     private javax.swing.JTextField txtScoreInfomatic;

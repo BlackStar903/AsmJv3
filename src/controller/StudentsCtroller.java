@@ -156,13 +156,6 @@ public class StudentsCtroller {
         Connection connection = null;
         PreparedStatement ps = null;
         String gioiTinh = "";
-
-//        if (s.getGioitinh().equalsIgnoreCase("Nam")) {
-//            gioiTinh = "1";
-//        } else {
-//            gioiTinh = "0";
-//        }
-
         try {
             connection = DatabaseUntil.getConnection();
             // update học sinh từ bảng STUDENTS
@@ -209,8 +202,6 @@ public class StudentsCtroller {
                 break;
             }
         }
-//        listDB.clear();
-//        listDB = fullDB();
         return listDB;
     }
 }

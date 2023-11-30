@@ -63,20 +63,25 @@ public class GradeController {
             connection = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=AsmJV3;user=sa;password=12");
             for (Grade gr : listDB) {
                 if (g.getStudentID().equals(gr.getStudentID())) {
-                    gr.setScoreEnglish(g.getScoreEnglish());
-                    gr.setScoreInformatic(g.getScoreInformatic());
-                    gr.setScorePhysic(g.getScorePhysic());
-                    break;
+                    return null;
                 }
             }
-            //Update Grade
-            String sqlUpdateGrade = "update Grade set Tienganh= ?,tinhoc= ? , gdtc = ? where masv = ?";
+
+            //Insert Students
+            String sqlInsert = "Insert into students(MASV,Hoten) values (?,?)";
+            ps = connection.prepareStatement(sqlInsert);
+            ps.setString(1, g.getStudentID());
+            ps.setString(2, g.getStudentName());
+            ps.executeUpdate();
+
+            //Insert Grade
+            String sqlUpdateGrade = "Insert into Grade (Tienganh,tinhoc, gdtc ) values(?,?,?) ";
             ps = connection.prepareStatement(sqlUpdateGrade);
             ps.setInt(1, g.getScoreEnglish());
             ps.setInt(2, g.getScoreInformatic());
             ps.setInt(3, g.getScorePhysic());
-            ps.setString(4, g.getStudentID());
-            ps.execute();
+//            ps.setString(4, g.getStudentID());
+            ps.executeUpdate();
 
             //Select top3
             String sqlTop3 = "select * FROM grade g JOIN STUDENTS s ON g.MASV = s.MASV order by  (tienganh+tinhoc+gdtc)/3 desc";
@@ -109,30 +114,47 @@ public class GradeController {
         return listDB;
     }
 
-    public ArrayList<Grade> update(Grade g) {
+    public ArrayList<Grade> update(Grade g, String OldId) {
         Connection connection = null;
         PreparedStatement ps = null;
         try {
             connection = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=AsmJV3;user=sa;password=12");
             for (Grade gr : listDB) {
-                if (g.getStudentID().equals(gr.getStudentID())) {
+                if (gr.getStudentID().equalsIgnoreCase(OldId)) {
                     gr.setScoreEnglish(g.getScoreEnglish());
                     gr.setScoreInformatic(g.getScoreInformatic());
                     gr.setScorePhysic(g.getScorePhysic());
-                    break;
+                    gr.setStudentID(g.getStudentID());
+                    gr.setStudentName(g.getStudentName());
                 }
             }
-            //Update Grade
-            String sqlUpdateGrade = "update Grade set Tienganh= ?,tinhoc= ? , gdtc = ? where masv = ?";
+            //Delete Grade           
+            String sqlDeleteGrade = "delete from Grade where masv = ?";
+            ps = connection.prepareStatement(sqlDeleteGrade);
+            ps.setString(1, OldId);
+            ps.executeUpdate();
+
+            //Update Students
+            String sqlUpdateStudent = "update STUDENTS set masv = ?, hoten = ? where masv = ?";
+            ps = connection.prepareStatement(sqlUpdateStudent);
+            ps.setString(1, g.getStudentID());
+            ps.setString(2, g.getStudentName());
+            ps.setString(3, OldId);
+            ps.executeUpdate();
+
+            //Insert Grade
+            String sqlUpdateGrade = "Insert into Grade (Masv,Tienganh,tinhoc, gdtc ) values(?,?,?,?) ";
             ps = connection.prepareStatement(sqlUpdateGrade);
-            ps.setInt(1, g.getScoreEnglish());
-            ps.setInt(2, g.getScoreInformatic());
-            ps.setInt(3, g.getScorePhysic());
-            ps.setString(4, g.getStudentID());
-            ps.execute();
+            ps.setString(1, g.getStudentID());
+            ps.setInt(2, g.getScoreEnglish());
+            ps.setInt(3, g.getScoreInformatic());
+            ps.setInt(4, g.getScorePhysic());
+            ps.executeUpdate();
 
             //Select top3
-            String sqlTop3 = "select top 3 * FROM grade g JOIN STUDENTS s ON g.MASV = s.MASV order by  (tienganh+tinhoc+gdtc)/3 desc";
+           String sqlTop3 = "SELECT s.MASV, s.Hoten, g.Tinhoc, g.Tienganh, g.GDTC,(g.Tinhoc+ g.Tienganh+ g.GDTC)/3[Điểm trung bình],s.Hinh"
+                    + " FROM grade g JOIN STUDENTS s ON g.MASV = s.MASV "
+                    + "order by [Điểm trung bình] desc";
             ps = connection.prepareStatement(sqlTop3);
             ResultSet resultSet = ps.executeQuery();
             listDB.clear();
@@ -173,7 +195,25 @@ public class GradeController {
             ps.setString(1, g.getStudentID());
             ps.execute();
 
-            listDB.remove(i);
+            for (Grade gr : listDB) {
+                if (gr.getStudentID().equalsIgnoreCase(g.getStudentID())) {
+                    listDB.remove(gr);
+                    break;
+                }
+            }
+
+            //Select top3
+            String sqlTop3 = "SELECT s.MASV, s.Hoten, g.Tinhoc, g.Tienganh, g.GDTC,(g.Tinhoc+ g.Tienganh+ g.GDTC)/3[Điểm trung bình],s.Hinh"
+                    + " FROM grade g JOIN STUDENTS s ON g.MASV = s.MASV "
+                    + "order by [Điểm trung bình] desc";
+            ps = connection.prepareStatement(sqlTop3);
+            ResultSet resultSet = ps.executeQuery();
+            listDB.clear();
+            while (resultSet.next()) {
+                listDB.add(new Grade(resultSet.getString("MASV"), resultSet.getString("Hoten"), resultSet.getInt("Tienganh"),
+                        resultSet.getInt("Tinhoc"), resultSet.getInt("GDTC"), resultSet.getString("Hinh")));
+            }
+
         } catch (SQLException ex) {
             Logger.getLogger(GradeController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -201,7 +241,7 @@ public class GradeController {
         PreparedStatement ps = null;
         try {
             connection = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=AsmJV3;user=sa;password=12");
-            String sql = "select * from grade g join STUDENTS s on g.MASV = s.MASV where s.masv = ?";
+            String sql = "SELECT * FROM STUDENTS s LEFT JOIN grade g ON s.MASV = g.MASV WHERE s.MASV = ?";
             ps = connection.prepareStatement(sql);
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
